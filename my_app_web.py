@@ -60,7 +60,7 @@ pivot_df = df_main.pivot_table(
 ).reset_index()
 
 # Додавання стовпчика із загальною сумою по всіх категоріях
-pivot_df['Total'] = pivot_df.sum(axis=1)
+pivot_df['Total'] = pivot_df.select_dtypes(include='number').sum(axis=1)
 
 # Сортування за стовпчиком 'Total' і відбір топ-10 записів
 sorted_df = pivot_df.sort_values(by='Total', ascending=False).head(10)
