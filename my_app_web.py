@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[11]:
-
-
 import dash
 from dash import dcc, html, dash_table
 from dash.dependencies import Input, Output
@@ -87,7 +81,7 @@ pie_chart.update_layout(
 )
 
 # Створення застосунку Dash
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, suppress_callback_exceptions=True)
 
 # Макет застосунку
 app.layout = html.Div([
@@ -123,9 +117,15 @@ def render_content(tab):
             dash_table.DataTable(
                 columns=[{"name": i.capitalize(), "id": i} for i in sorted_df.columns],
                 data=sorted_df.to_dict('records'),
-                style_table={'overflowX': 'auto'},
+                style_table={
+        'width': '90%',  # Встановлення ширини таблиці на 70% від ширини контейнера
+        'margin-left': '0px',  # Вирівнювання таблиці по центру
+        'margin-right': 'auto',
+        'overflowX': 'auto'
+    },
                 style_cell={'textAlign': 'left'},
-                style_header={'backgroundColor': 'rgb(230, 230, 230)', 'fontWeight': 'bold'}
+                style_header={'backgroundColor': 'rgb(230, 230, 230)', 'fontWeight': 'bold'},
+                
             )
         ])
     elif tab == 'tab-1':
@@ -152,7 +152,10 @@ def render_content(tab):
             dash_table.DataTable(
                 columns=[{"name": i.capitalize(), "id": i} for i in df_aggregated.columns],
                 data=df_aggregated.to_dict('records'),
-                style_table={'overflowX': 'auto'},
+                style_table={'width': '90%',  # Встановлення ширини таблиці на 70% від ширини контейнера
+        'margin-left': '0px',  # Вирівнювання таблиці по центру
+        'margin-right': 'auto',
+        'overflowX': 'auto'},
                 style_cell={'textAlign': 'left'},
                 style_header={'backgroundColor': 'rgb(230, 230, 230)', 'fontWeight': 'bold'}
             )
@@ -195,6 +198,7 @@ def update_time_series(selected_filter, start_date, end_date, tab):
     fig.update_layout(xaxis_title='Date', yaxis_title=selected_filter.capitalize(), template='plotly_white')
 
     return fig
+
 
 if __name__ == '__main__':
     import os
